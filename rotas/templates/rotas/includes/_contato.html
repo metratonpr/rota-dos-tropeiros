@@ -1,0 +1,39 @@
+<!-- Secao de contato com formulario para solicitacoes -->
+    <section id="contato" class="py-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-7">
+            <div class="text-center mb-4">
+              <h2 class="section-title fw-semibold">Converse com a equipe</h2>
+              <p class="section-subtitle mb-0">Retornamos solicitações operacionais ou comerciais em até 24 horas úteis.</p>
+            </div>
+            <form class="row g-3">
+              <div class="col-md-6">
+                <label for="nome" class="form-label">Nome completo</label>
+                <input type="text" class="form-control" id="nome" placeholder="Seu nome">
+              </div>
+              <div class="col-md-6">
+                <label for="email" class="form-label">E-mail</label>
+                <input type="email" class="form-control" id="email" placeholder="nome@empresa.com">
+              </div>
+              <div class="col-12">
+                <label for="assunto" class="form-label">Assunto</label>
+                <select id="assunto" class="form-select">
+                  <option selected>Selecione...</option>
+                  <option value="operacional">Operacional</option>
+                  <option value="parcerias">Parcerias</option>
+                  <option value="imprensa">Imprensa</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label for="mensagem" class="form-label">Mensagem</label>
+                <textarea class="form-control" id="mensagem" rows="4" placeholder="Como podemos apoiar sua operação?"></textarea>
+              </div>
+              <div class="col-12 d-grid d-md-flex justify-content-md-end">
+                <button type="submit" class="btn btn-primary px-4">Enviar mensagem</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>

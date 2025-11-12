@@ -1,0 +1,25 @@
+  <!-- Secao do mapa interativo com Leaflet para visualizar rotas -->
+    <section id="rota" class="py-5">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-lg-5">
+            <h2 class="section-title fw-semibold mb-3">Mapa interativo das rotas</h2>
+            <p class="section-subtitle mb-4">
+              Visualize o traçado em tempo real das linhas urbanas. O mapa integra dados abertos de mobilidade e permite alternar entre camadas Google Maps ou OpenStreetMap.
+            </p>
+            <ul class="list-unstyled text-muted mb-4">
+              <li class="mb-2">- Selecione a linha desejada para destacar o percurso no mapa.</li>
+              <li class="mb-2">- Consulte pontos de parada, horários previstos e alertas de bloqueio.</li>
+              <li>- Personalize o estilo do mapa com Tiles Google ou OpenStreet conforme disponibilidade.</li>
+            </ul>
+            <a class="btn btn-primary" href="#contato">Solicitar chave de acesso</a>
+          </div>
+          <div class="col-lg-7">
+            <div id="routeMap"></div>
+            <small id="routeMapInfo" class="d-block text-muted mt-2">
+              Integração demonstrativa com Leaflet (OpenStreetMap). O traçado e os pontos são atualizados automaticamente conforme a linha selecionada nas abas. Substitua a fonte de tiles ou inicialização pela API oficial do Google Maps quando a chave estiver configurada.
+            </small>
+          </div>
+        </div>
+      </div>
+    </section>
