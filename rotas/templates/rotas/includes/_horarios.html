@@ -1,144 +1,81 @@
- <!-- Secao de horarios com abas interativas por linha -->
-    <section id="horarios" class="py-5 bg-white">
-      <div class="container">
+<section id="horarios" class="py-5 bg-white">
+    <div class="container">
         <div class="d-flex flex-column flex-lg-row justify-content-between align-items-start mb-4">
-          <div>
-            <h2 class="section-title fw-semibold mb-2">Horários por linha</h2>
-            <p class="section-subtitle mb-0">Selecione a linha desejada para consultar paradas estratégicas, horários previstos e intervalos médios.</p>
-          </div>
-          <a class="btn btn-outline-primary mt-3 mt-lg-0" href="#contato">Solicitar linha adicional</a>
+            <div>
+                <h2 class="section-title fw-semibold mb-2">Horários por linha</h2>
+                <p class="section-subtitle mb-0">
+                    Selecione a linha desejada para consultar paradas estratégicas, horários previstos e intervalos médios.
+                </p>
+            </div>
+            <a class="btn btn-outline-primary mt-3 mt-lg-0" href="#contato">Solicitar linha adicional</a>
         </div>
+        
         <ul class="nav nav-underline schedule-tabs mb-4" id="lineTabs" role="tablist">
-          <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="tab-410" data-bs-toggle="tab" data-bs-target="#linha410" type="button" role="tab" aria-controls="linha410" aria-selected="true" data-route="linha410">Linha 410</button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" id="tab-128" data-bs-toggle="tab" data-bs-target="#linha128" type="button" role="tab" aria-controls="linha128" aria-selected="false" data-route="linha128">Linha 128</button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" id="tab-520" data-bs-toggle="tab" data-bs-target="#linha520" type="button" role="tab" aria-controls="linha520" aria-selected="false" data-route="linha520">Linha 520</button>
-          </li>
+            {% for rota in rotas %}
+            <li class="nav-item" role="presentation">
+                <button class="nav-link {% if forloop.first %}active{% endif %}" 
+                        id="tab-{{ rota.id }}" 
+                        data-bs-toggle="tab" 
+                        data-bs-target="#linha{{ rota.id }}" 
+                        type="button" 
+                        role="tab" 
+                        aria-controls="linha{{ rota.id }}" 
+                        aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+                        data-route="linha{{ rota.id }}">
+                    {{ rota.nome }}
+                </button>
+            </li>
+            {% endfor %}
         </ul>
+        
         <div class="tab-content">
-          <div class="tab-pane fade show active" id="linha410" role="tabpanel" aria-labelledby="tab-410">
-            <div class="schedule-card p-4">
-              <h5 class="fw-semibold mb-3" style="color: var(--vm-primary);">Terminal Verde Vida → Parque Atlântico</h5>
-              <div class="row g-4">
-                <div class="col-lg-6">
-                  <table class="table align-middle mb-0">
-                    <thead>
-                      <tr>
-                        <th scope="col">Parada</th>
-                        <th scope="col">Próximo</th>
-                        <th scope="col">Seguinte</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Terminal Verde Vida</td>
-                        <td>05:40</td>
-                        <td>06:00</td>
-                      </tr>
-                      <tr>
-                        <td>Jardim Primavera</td>
-                        <td>05:48</td>
-                        <td>06:08</td>
-                      </tr>
-                      <tr>
-                        <td>Hub Intermodal Central</td>
-                        <td>05:57</td>
-                        <td>06:17</td>
-                      </tr>
-                      <tr>
-                        <td>Parque Atlântico</td>
-                        <td>06:10</td>
-                        <td>06:30</td>
-                      </tr>
-                    </tbody>
-                  </table>
+            {% for rota in rotas %}
+            <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" 
+                 id="linha{{ rota.id }}" 
+                 role="tabpanel" 
+                 aria-labelledby="tab-{{ rota.id }}">
+                <div class="schedule-card p-4">
+                    <h5 class="fw-semibold mb-3" style="color: var(--vm-primary);">{{ rota.nome }}</h5>
+                    <div class="row g-4">
+                        <div class="col-lg-8">
+                            <table class="table align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Parada</th>
+                                        <th scope="col">Próximo</th>
+                                        <th scope="col">Seguinte</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for horario in rota.horarios_parada.all %}
+                                    {% if horario.ativo %}
+                                    <tr>
+                                        <td>{{ horario.parada.endereco }}</td>
+                                        <td>{{ horario.horario|date:"H:i" }}</td>
+                                        <td>{{ horario.proximo_horario|date:"H:i"|default:"—" }}</td>
+                                    </tr>
+                                    {% endif %}
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="3" class="text-center text-muted">Nenhum horário cadastrado</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="callout p-4 h-100">
+                                <h6 class="text-uppercase text-muted">Informações</h6>
+                                <p class="fw-semibold mb-2">{{ rota.nome }}</p>
+                                <p class="text-muted mb-0">
+                                    Acompanhe os horários em tempo real através do mapa interativo abaixo.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-lg-6">
-                  <div class="callout p-4 h-100">
-                    <h6 class="text-uppercase text-muted">Atenção</h6>
-                    <p class="fw-semibold mb-2">Faixa exclusiva ativa das 6h às 9h na Avenida Botânica com monitoramento de velocidade.</p>
-                    <p class="text-muted mb-0">Segunda a sexta a linha recebe reforço com intervalos médios de 12 minutos nos horários de pico.</p>
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
-          <div class="tab-pane fade" id="linha128" role="tabpanel" aria-labelledby="tab-128">
-            <div class="schedule-card p-4">
-              <h5 class="fw-semibold mb-3" style="color: var(--vm-primary);">Jardim Horizonte → Centro Integrado</h5>
-              <table class="table align-middle mb-0">
-                <thead>
-                  <tr>
-                    <th scope="col">Parada</th>
-                    <th scope="col">Próximo</th>
-                    <th scope="col">Seguinte</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Jardim Horizonte</td>
-                    <td>05:20</td>
-                    <td>05:40</td>
-                  </tr>
-                  <tr>
-                    <td>Avenida Solar</td>
-                    <td>05:31</td>
-                    <td>05:51</td>
-                  </tr>
-                  <tr>
-                    <td>Estação Linha Azul</td>
-                    <td>05:42</td>
-                    <td>06:02</td>
-                  </tr>
-                  <tr>
-                    <td>Centro Integrado</td>
-                    <td>05:55</td>
-                    <td>06:15</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="tab-pane fade" id="linha520" role="tabpanel" aria-labelledby="tab-520">
-            <div class="schedule-card p-4">
-              <h5 class="fw-semibold mb-3" style="color: var(--vm-primary);">Campus Norte → Bairro Solar</h5>
-              <table class="table align-middle mb-0">
-                <thead>
-                  <tr>
-                    <th scope="col">Parada</th>
-                    <th scope="col">Próximo</th>
-                    <th scope="col">Seguinte</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Campus Norte</td>
-                    <td>05:10</td>
-                    <td>05:30</td>
-                  </tr>
-                  <tr>
-                    <td>Laboratórios Integrados</td>
-                    <td>05:18</td>
-                    <td>05:38</td>
-                  </tr>
-                  <tr>
-                    <td>Terminal Azul</td>
-                    <td>05:30</td>
-                    <td>05:50</td>
-                  </tr>
-                  <tr>
-                    <td>Bairro Solar</td>
-                    <td>05:44</td>
-                    <td>06:04</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+            {% endfor %}
         </div>
-      </div>
-    </section>
+    </div>
+</section>
